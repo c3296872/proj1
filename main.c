@@ -1,8 +1,12 @@
 #include <stdio.h>
 /*
-int RotationEncryption(void);
-int RotationDecryption(void);
+int RotEncrypt(void);
+int RotDecryptKnownKey(void);
 int SubEncrypt(void);
+int SubDecryptKnownKey(void);
+int RotDecryptUnknownKey(Void);
+int SubDecryptUknownKey(Void);
+
 
 int main()
 {
@@ -35,7 +39,7 @@ int main()
 }
 */
 /*
-int RotationEncryption(void) 
+int RotEncrypt(void) 
 
 {
     char text[] = "The 5 Quick Brown Fox's Winter Coats are coming in!"; //array stores input
@@ -73,7 +77,7 @@ int RotationEncryption(void)
 */
 
 /*
-//int RotationDecryption(void)
+//int RotDecryptKnownKey(void)
 int main()
 {
     char text[] = "YMj 5 VZnHP gWTBS kTC'x BnSYJW HtFYX FwJ HtRNSL Ns!"; //array stores input
@@ -109,7 +113,9 @@ int main()
 
 */
 
+/*
 
+//The 5 Quick Brown Fox's Winter Coats are coming in!
 // int SubEncrypt(void)
 int main()
 {
@@ -188,10 +194,47 @@ int main()
 
 }
 
+*/
+
 
 //LNR 5 JPVIS BXUCA EUY'W CVALRX IUTLW TXR IUQVAZ VA!
-
-
+//SubDecryptKnownKey
+int main()
+//char function(char text[x],char *key);
+{
+    char text[] = "LnR 5 jPVIS BXUcA EUY'W CVaLRX IUTLw tXR IUQvAZ Va!"; //array stores input
+    char decrypted[200];   // array stores decyrpted text
+    int n = 0;  // n + 1 = size of string
+    char key[] = "TBIMREZNVFSGQAUKJXWLPHCYDO"; //Subsitution decryption key (1st letter = A, 2nd = B, etc)
+    //char key1[100];
+    for(n = 0; text[n] != 0; n++) //for loop converts any lower case to upper case
+    {
+        if(text[n] > 96 && text[n] < 123) //if statement checks if character is lower case before converting
+        {
+            text[n] = text[n] - 32; // expression converts lower case letter to uppercase as per ASCII table
+        }
+    }
+    
+    printf("Text to be Encrypted: %s\n", text); // prints text to be encrypted
+        for(int x = 0; key[x] != 0; x++) //for loop encrypts text
+        {
+            for(int k = 0; text[k] != 0; k++)
+            {
+                if(text[k] == key[x])
+                {
+                    decrypted[k] = x + 65;
+                }
+            }
+        }
+        for(int m = 0; text[m] != 0; m++)
+        {
+            if(text[m] < 65 || text[m] > 90)
+            {
+                decrypted[m] = text[m];
+            }
+        }
+        printf("Decrypted Text: %s\n", decrypted);
+}
 
 
 
