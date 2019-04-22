@@ -196,7 +196,7 @@ int main()
 
 */
 
-
+/*
 //LNR 5 JPVIS BXUCA EUY'W CVALRX IUTLW TXR IUQVAZ VA!
 //SubDecryptKnownKey
 int main()
@@ -236,6 +236,40 @@ int main()
         printf("Decrypted Text: %s\n", decrypted);
 }
 
+*/
 
-
+//RotDecyptUnknownKey
+int main()
+{
+    char text[] = "YMj 5 VZnHP gWTBS kTC'x BnSYJW HtFYX FwJ HtRNSL Ns!"; //array stores input
+    char rotated[200];   // array stores decyrpted text
+    int n = 0;  // n + 1 = size of string
+    for(int K = 0; K < 26; K++) //loop runs RotDecyptKnownKey for every value of K
+    {
+        for(n = 0; text[n] != 0; n++) //for loop converts any lower case to upper case
+        {
+            if(text[n] > 96 && text[n] < 123) //if statement checks if character is lower case before converting
+            {
+                text[n] = text[n] - 32; // expression converts lower case letter to uppercase as per ASCII table
+            }
+        }
+        printf("Text to be decrypted: %s\n", text); // prints text to be decrypted
+        for(int x = 0; text[x] != 0; x++) //for loop decrypts text
+        {
+            if(text[x] > 64 && text[x] < 91) //if statement checks if character is a letter before encrypting
+            {
+                rotated[x] = text[x] - K; //expression decrypts character using key and stores it in decrypted text array
+                if(rotated[x] < 65) //if statement checks if encrypted character is a letter
+                {
+                    rotated[x] = rotated[x] + 26; //expression converts non-letter characters to correct letter
+                }
+            }
+            else
+            {
+                rotated[x] = text[x]; //expression copies non-letter characters without decrypting
+            }
+        }
+        printf("Decrypted text: %s\n", rotated);
+    }
+}
 
