@@ -1,11 +1,11 @@
 #include <stdio.h>
-
+/*
 char RotationEncryption(void);
 
 int main()
 {
     int input1 = 1;
-    while(input1 < 7 && input1 > 0)
+    if(input1 < 7 && input1 > 0)
     {
         printf("Choose from the following options:\n");
         printf("1. Rotation Encryption\n");
@@ -14,7 +14,7 @@ int main()
         printf("4. Substitution Decryption with known substitutions\n");
         printf("5. Rotation Decryption without known roation amount\n");
         printf("6. Substitution Decryption without known substitutions\n");
-        scanf("%d", &input1);
+        //scanf("%d", &input1);
         //char answer[200];
         switch(input1)
         {
@@ -31,30 +31,53 @@ int main()
     }
     
 }
-
-char RotationEncryption(void) 
+*/
+//char RotationEncryption(void) 
+void main()
 {
-    char text[200]; //string input
+    char text[] = "The 5 Quick Brown Fox's Winter Coats are coming in!"; //array stores input
     char rotated[200];   // array stores encyrpted text
-    int n;  // n is size of string
+    int n = 0;  // n + 1 = size of string
     int K = 5; //K is rotation cipher encryption "key"
-    printf("Enter text to be encrypted: ");
-    scanf("%s", text);
-    
-    //printf("\n please enter encryption key: ");
-    //scanf("%d", K);
-    for(n = 0; text[n] != 0; n++)
+    for(n = 0; text[n] != 0; n++) //for loop converts any lower case to upper case
     {
-        rotated[n] = text[n] + K;
+        if(text[n] > 96 && text[n] < 123) //if statement checks if character is lower case before converting
+        {
+            text[n] = text[n] - 32; // expression converts lower case letter to uppercase as per ASCII table
+        }
     }
-    rotated[n+1] = 0;
-    printf("%s\n", rotated);
-    
-    for(n = 0; text[n] != 0; n++)
+    printf("Text to be encrypted: %s\n", text); // prints text to be encrypted
+    for(int x = 0; text[x] != 0; x++) //for loop encrypts text
     {
-        rotated[n] = rotated[n] - K;
+        if(text[x] > 64 && text[x] < 91) //if statement checks if character is a letter before encrypting
+        {
+            rotated[x] = text[x] + K; //expression encypts character using key and stores it in encypted text array
+            if(rotated[x] > 90) //if statement checks if encrypted character is a letter
+            {
+                rotated[x] = rotated[x] - 26; //expression converts non-letter characters to correct letter
+            }
+        }
+        else
+        {
+            rotated[x] = text[x]; //expression copies non-letter characters without encrypting
+        }
+
     }
+    rotated[n+1] = 0; //places string termination at correct position in array
+    printf("Encrypted text: %s\n", rotated); // prints encrypted text
     
-    printf("%s", rotated);
-    return 1;
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
