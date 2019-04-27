@@ -39,10 +39,11 @@ int main()
 }
 */
 /*
-int RotEncrypt(void) 
+int main()
+//int RotEncrypt(void) 
 
 {
-    char text[] = "The 5 Quick Brown Fox's Winter Coats are coming in!"; //array stores input
+    char text[] = "the and for are but not you all any can had her was one our out day get has him his how man new now old see two way who boy did its let put say she too use"; //array stores input
     char rotated[200];   // array stores encyrpted text
     int n = 0;  // n + 1 = size of string
     int K = 5; //K is rotation cipher encryption "key"
@@ -238,38 +239,271 @@ int main()
 
 */
 
-//RotDecyptUnknownKey
+//RotDecryptUnknownKey
 int main()
 {
-    char text[] = "YMj 5 VZnHP gWTBS kTC'x BnSYJW HtFYX FwJ HtRNSL Ns!"; //array stores input
+    char text[] = " YMJ FSI KTW FWJ GZY STY DTZ FQQ FSD HFS MFI MJW BFX TSJ TZW TZY IFD LJY MFX MNR MNX MTB RFS SJB STB TQI XJJ YBT BFD BMT GTD INI NYX QJY UZY XFD XMJ YTT ZXJ "; //array stores input
     char rotated[200];   // array stores decyrpted text
     int n = 0;  // n + 1 = size of string
-    for(int K = 0; K < 26; K++) //loop runs RotDecyptKnownKey for every value of K
+    int nk = 0; //nk is number of keys found
+    //int key; //key to be used from keys array will be stored here
+    int keys[50];   //keys[] stores all potential keys found
+    for(n = 0; text[n] != 0; n++) //for loop converts any lower case to upper case    
     {
-        for(n = 0; text[n] != 0; n++) //for loop converts any lower case to upper case
+        if(text[n] > 96 && text[n] < 123) //if statement checks if character is lower case before converting
         {
-            if(text[n] > 96 && text[n] < 123) //if statement checks if character is lower case before converting
-            {
-                text[n] = text[n] - 32; // expression converts lower case letter to uppercase as per ASCII table
-            }
+            text[n] = text[n] - 32; // expression converts lower case letter to uppercase as per ASCII table
         }
-        printf("Text to be decrypted: %s\n", text); // prints text to be decrypted
-        for(int x = 0; text[x] != 0; x++) //for loop decrypts text
+    }
+    printf("Text to be decrypted: %s\n", text); // prints text to be decrypted
+    
+    for(int K = 0; text[K] != 0; K++) 
+    {
+        //printf("%c\n", text[K]);
+        if(text[K] == 32) //if K is a space
         {
-            if(text[x] > 64 && text[x] < 91) //if statement checks if character is a letter before encrypting
+            if(text[K + 4] == 32) //if there is another space 4 characters away (a three letter word)
             {
-                rotated[x] = text[x] - K; //expression decrypts character using key and stores it in decrypted text array
-                if(rotated[x] < 65) //if statement checks if encrypted character is a letter
+                int x = (text[K + 1] - text[K + 2]); //test to be compared to known answers for commonly used words
+                printf("case %d\n", x);
+                switch(x)
                 {
-                    rotated[x] = rotated[x] + 26; //expression converts non-letter characters to correct letter
+                    case -25:
+                    case 1:     keys[nk] = text[K + 1] - 79; //Case for if "ONE" pattern identified
+                                printf("Key found to be: %d on K=%d\n", keys[nk], K);
+                                nk++;
+                                break;
+                    case -24:
+                    case 2:     switch(text[K + 1] - text[K + 3])
+                                {
+                                    case 13:
+                                    case -13:   keys[nk] = text[K + 1] - 71; //Case for if "GET" pattern identified
+                                                printf("Key found to be: %d on K=%d\n", keys[nk], K);
+                                                nk++;
+                                                break;
+                                    case 15:
+                                    case -11:   keys[nk] = text[K + 1] - 67; //Case for if "CAN" pattern identified
+                                                printf("Key found to be: %d on K=%d\n", keys[nk], K);
+                                                nk++;
+                                                break;
+                                    case 16:
+                                    case -10:   keys[nk] = text[K + 1] - 85; //Case for if "USE" pattern identified
+                                                printf("Key found to be: %d on K=%d\n", keys[nk], K);
+                                                nk++;
+                                                break;
+                                }
+                                break;
+                    case -23:
+                    case 3:     switch(text[K + 1] - text[K + 3])
+                                {
+                                    case -21:
+                                    case 5:    keys[nk] = text[K + 1] - 68; //Case for if "DAY" pattern identified
+                                                printf("Key found to be: %d on K=%d\n", keys[nk], K);
+                                                nk++;
+                                                break;
+                                    case -15:
+                                    case 11:    keys[nk] = text[K + 1] - 79; //Case for if "OLD" pattern identified
+                                                printf("Key found to be: %d on K=%d\n", keys[nk], K);
+                                                nk++;
+                                                break;
+                                    case -10:
+                                    case 16:    keys[nk] = text[K + 1] - 72; //Case for if "HER" pattern identified
+                                                printf("Key found to be: %d on K=%d\n", keys[nk], K);
+                                                nk++;
+                                                break;
+                                }
+                                break;
+                    case -3:                                 //Case for if "TWO" pattern identified            
+                    case 23:                                 //Case for if "TWO" pattern identified            
+                    case -21:                                //Case for if "TOO" pattern identified
+                    case 5:     keys[nk] = text[K + 1] - 84; //Case for if "TOO" pattern identified
+                                printf("Key found to be: %d on K=%d\n", keys[nk], K);
+                                nk++;
+                                break;
+                    case -19:
+                    case 7:     switch(text[K + 1] - text[K + 3])
+                                {
+                                    case -11:                                //Case for if "HAS" pattern identified
+                                    case 15:                                 //Case for if "HAS" pattern identified
+                                    case -22:                                //Case for if "HAD" pattern identified
+                                    case 4:     keys[nk] = text[K + 1] - 72; //Case for if "HAD" pattern identified
+                                                printf("Key found to be: %d on K=%d\n", keys[nk], K);
+                                                nk++;
+                                                break;
+                                    case -18:
+                                    case 8:     keys[nk] = text[K + 1] - 66; //Case for if "BUT" pattern identified
+                                                printf("Key found to be: %d on K=%d\n", keys[nk], K);
+                                                nk++;
+                                                break;
+                                        
+                                    case -8:
+                                    case 18:    keys[nk] = text[K + 1] - 76; //Case for if "LET" pattern identified
+                                                printf("Key found to be: %d on K=%d\n", keys[nk], K);
+                                                nk++;
+                                                break;
+                                }
+                                break;
+                    case -17:
+                    case 9:     switch(text[K + 1] - text[K + 3])
+                                {
+                                    case -9:
+                                    case 17:    keys[nk] = text[K + 1] - 78; //Case for if "NEW" pattern identified
+                                                printf("Key found to be: %d on K=%d\n", keys[nk], K);
+                                                nk++;
+                                                break;
+                                    case -4:
+                                    case 22:    keys[nk] = text[K + 1] - 65; //Case for if "ARE" pattern identified
+                                                printf("Key found to be: %d on K=%d\n", keys[nk], K);
+                                                nk++;
+                                                break;
+                                }
+                                break;
+                    case -16:
+                    case 10:        keys[nk] = text[K + 1] - 89; //Case for if "YOU" pattern identified
+                                    printf("Key found to be: %d on K=%d\n", keys[nk], K);
+                                    nk++;
+                                    break;
+                    case -12:                                    //Case for if "SEE" pattern identified
+                    case 14:                                     //Case for if "SEE" pattern identified
+                    case -8:                                     //Case for if "SAY" pattern identified
+                    case 18:                                     //Case for if "SAY" pattern identified    
+                    case -15:                                    //Case for if "SHE" pattern identified
+                    case 11:        keys[nk] = text[K + 1] - 83; //Case for if "SHE" pattern identified
+                                    printf("Key found to be: %d on K=%d\n", keys[nk], K);
+                                    nk++;
+                                    break;
+                    case -14:
+                    case 12:     switch(text[K + 1] - text[K + 3])
+                                {
+                                    case -11:
+                                    case 15:    keys[nk] = text[K + 1] - 84; //Case for if "THE" pattern identified
+                                                printf("Key found to be: %d on K=%d\n", keys[nk], K);
+                                                nk++;
+                                                break;
+                                    case -1:
+                                    case 25:    keys[nk] = text[K + 1] - 77; //Case for if "MAN" pattern identified
+                                                printf("Key found to be: %d on K=%d\n", keys[nk], K);
+                                                nk++;
+                                                break;
+                                }
+                                break;
+                    case -13:
+                    case 13:     switch(text[K + 1] - text[K + 3])
+                                {
+                                    case -3:                                //Case for if "AND" pattern identified
+                                    case 23:                                  //Case for if "AND" pattern identified
+                                    case -24:                                //Case for if "ANY" pattern identified
+                                    case 2:     keys[nk] = text[K + 1] - 65; //Case for if "ANY" pattern identified
+                                                printf("Key found to be: %d on K=%d\n", keys[nk], K);
+                                                nk++;
+                                                break;
+                                    case -23:
+                                    case 3:     keys[nk] = text[K + 1] - 66; //Case for if "BOY" pattern identified
+                                                printf("Key found to be: %d on K=%d\n", keys[nk], K);
+                                                nk++;
+                                                break;
+                                }
+                                break;
+                    case -11:
+                    case 15:    switch(text[K + 1] - text[K + 3])
+                                {
+                                    case -18:
+                                    case 8:    keys[nk] = text[K + 1] - 87; //Case for if "WHO" pattern identified
+                                                printf("Key found to be: %d on K=%d\n", keys[nk], K);
+                                                nk++;
+                                                break;
+                                    case -11:
+                                    case 15:    keys[nk] = text[K + 1] - 65; //Case for if "ALL" pattern identified
+                                                printf("Key found to be: %d on K=%d\n", keys[nk], K);
+                                                nk++;
+                                                break;
+                                    case -10:
+                                    case 16:    keys[nk] = text[K + 1] - 73; //Case for if "ITS" pattern identified
+                                                printf("Key found to be: %d on K=%d\n", keys[nk], K);
+                                                nk++;
+                                                break;
+                                }
+                                break;    
+                    case -9:
+                    case 17:        keys[nk] = text[K + 1] - 70; //Case for if "FOR" pattern identified
+                                    printf("Key found to be: %d on K=%d\n", keys[nk], K);
+                                    nk++;
+                                    break;
+                    case -7:
+                    case 19:        keys[nk] = text[K + 1] - 72; //Case for if "HOW" pattern identified
+                                    printf("Key found to be: %d on K=%d\n", keys[nk], K);
+                                    nk++;
+                                    break;
+                    case -6:
+                    case 20:        keys[nk] = text[K + 1] - 79; //Case for if "OUR" OR "OUT" pattern identified
+                                    printf("Key found to be: %d on K=%d\n", keys[nk], K);
+                                    nk++;
+                                    break;
+                    case -5:
+                    case 21:     switch(text[K + 1] - text[K + 3])
+                                {
+                                    case 0:     keys[nk] = text[K + 1] - 68; //Case for if "DID" pattern identified
+                                                printf("Key found to be: %d on K=%d\n", keys[nk], K);
+                                                nk++;
+                                                break;
+                                    case -4:
+                                    case 22:    keys[nk] = text[K + 1] - 80; //Case for if "PUT" pattern identified
+                                                printf("Key found to be: %d on K=%d\n", keys[nk], K);
+                                                nk++;
+                                                break;
+                                }
+                                break;
+                    case -4:
+                    case 22:    keys[nk] = text[K + 1] - 87; //Case for if "WAS" or "WAY" pattern identified
+                                printf("Key found to be: %d on K=%d\n", keys[nk], K);
+                                nk++;
+                                break;
+                    case -1:
+                    case 25:     switch(text[K + 1] - text[K + 3])
+                                {
+                                    case -9:                                 //Case for if "NOW" pattern identified
+                                    case 17:                                 //Case for if "NOW" pattern identified
+                                    case -6:                                 //Case for if "NOT" pattern identified
+                                    case 20:    keys[nk] = text[K + 1] - 78; //Case for if "NOT" pattern identified
+                                                printf("Key found to be: %d on K=%d\n", keys[nk], K);
+                                                nk++;
+                                                break;
+                                    case -11:                                //Case for if "HIS" pattern identified   
+                                    case 15:                                 //Case for if "HIS" pattern identified
+                                    case -5:                                 //Case for if "HIM" pattern identified   
+                                    case 21:    keys[nk] = text[K + 1] - 72; //Case for if "HIM" pattern identified
+                                                printf("Key found to be: %d on K=%d\n", keys[nk], K);
+                                                nk++;
+                                                break;
+                                }
+                                break;
+                    default: break;
+                  
                 }
             }
-            else
+        }
+   // printf("The Key is: %d\n", key);
+    }
+    
+    for(int x = 0; text[x] != 0; x++) //for loop decrypts text
+    {
+        if(text[x] > 64 && text[x] < 91) //if statement checks if character is a letter before encrypting
+        {
+            rotated[x] = text[x] - keys[0]; //expression decrypts character using key and stores it in decrypted text array
+            if(rotated[x] < 65) //if statement checks if encrypted character is a letter
             {
-                rotated[x] = text[x]; //expression copies non-letter characters without decrypting
+                rotated[x] = rotated[x] + 26; //expression converts non-letter characters to correct letter
+            }
+            if(rotated[x] > 90)
+            {
+                rotated[x] = rotated[x] - 26; //expression converts non-letter characters to correct letter
             }
         }
-        printf("Decrypted text: %s\n", rotated);
+        else
+        {
+            rotated[x] = text[x]; //expression copies non-letter characters without decrypting
+        }
     }
-}
+    printf("Decrypted text: %s\n", rotated);
+    }
 
