@@ -1,11 +1,11 @@
 #include <stdio.h>
-/*
+
 int RotEncrypt(void);
 int RotDecryptKnownKey(void);
 int SubEncrypt(void);
 int SubDecryptKnownKey(void);
-int RotDecryptUnknownKey(Void);
-int SubDecryptUknownKey(Void);
+int RotDecryptUnknownKey(void);
+//int SubDecryptUknownKey(void);
 
 
 int main()
@@ -24,24 +24,28 @@ int main()
         //char answer[200];
         switch(input1)
         {
-        case 1: return RotationEncryption();
+        case 1: return RotEncrypt();
                 break;
-        case 2:
-        case 3:
-        case 4:
-        case 5:
+        case 2: return RotDecryptKnownKey();
+                break;
+        case 3: return SubEncrypt();
+                break;
+        case 4: return SubDecryptKnownKey();
+                break;
+        case 5: return RotDecryptUnknownKey();
+                break;
         case 6: printf("This option is still under construction.\n We thank you for your patience\n");
+                return 0;
                 break;
-        default: printf("Invalid Input");
+        default: printf("Invalid Input\n");
         }
     }
     
 }
-*/
-/*
-int main()
-//int RotEncrypt(void) 
 
+
+//int main()
+int RotEncrypt(void) 
 {
     char text[] = "the and for are but not you all any can had her was one our out day get has him his how man new now old see two way who boy did its let put say she too use"; //array stores input
     char rotated[200];   // array stores encyrpted text
@@ -73,13 +77,11 @@ int main()
     }
     rotated[n+1] = 0; //places string termination at correct position in array
     printf("Encrypted text: %s\n", rotated); // prints encrypted text
-    
+ return 1;   
 }
-*/
 
-/*
-//int RotDecryptKnownKey(void)
-int main()
+int RotDecryptKnownKey(void)
+//int main()
 {
     char text[] = "YMj 5 VZnHP gWTBS kTC'x BnSYJW HtFYX FwJ HtRNSL Ns!"; //array stores input
     char rotated[200];   // array stores decyrpted text
@@ -110,15 +112,16 @@ int main()
 
     }
     printf("Decrypted text: %s", rotated);
+return 2;
 }
 
-*/
 
-/*
+
+
 
 //The 5 Quick Brown Fox's Winter Coats are coming in!
-// int SubEncrypt(void)
-int main()
+int SubEncrypt(void)
+//int main()
 {
     char text[] = "The 5 Quick Brown Fox's Winter Coats are coming in!"; //array stores input
     char rotated[200];   // array stores encyrpted text
@@ -192,15 +195,13 @@ int main()
             }
         }
         printf("Encrypted Text: %s\n", rotated);
-
+return 3;
 }
 
-*/
 
-/*
 //LNR 5 JPVIS BXUCA EUY'W CVALRX IUTLW TXR IUQVAZ VA!
-//SubDecryptKnownKey
-int main()
+int SubDecryptKnownKey(void)
+//int main()
 //char function(char text[x],char *key);
 {
     char text[] = "LnR 5 jPVIS BXUcA EUY'W CVaLRX IUTLw tXR IUQvAZ Va!"; //array stores input
@@ -235,12 +236,12 @@ int main()
             }
         }
         printf("Decrypted Text: %s\n", decrypted);
+return 4;
 }
 
-*/
 
-//RotDecryptUnknownKey
-int main()
+int RotDecryptUnknownKey(void)
+//int main()
 {
     char text[] = "YMJ FSI KTW FWJ GZY STY DTZ FQQ FSD HFS MFI MJW BFX TSJ TZW TZY IFD LJY MFX MNR MNX MTB RFS SJB STB TQI XJJ YBT BFD BMT GTD INI NYX QJY UZY XFD XMJ YTT ZXJ"; //array stores input
     char rotated[200];   // array stores decyrpted text
@@ -260,15 +261,15 @@ int main()
     for(int K = 0; text[K] != 0; K++) 
     {
         //printf("%c\n", text[K]);
-        if(text[K] == 32 || K == 0) //if K is a space or if K = 0
+        if(text[K] == 32 || K == 0) //if K is a space we will check for another space 4 characters away or if K = 0 we will check for a spcare 3 characters away
         {
-            if(((text[K + 4] == 32) || ((text[K + 4]) == 0)) || ((K == 0) && (text[K + 3] == 32))) //if there is another space 4 characters away or 3 for K = 0 (a three letter word)
+            if(((text[K + 4] == 32) || ((text[K + 4]) == 0)) || ((K == 0) && (text[K + 3] == 32))) //if there is another space or a null 4 characters away or 3 characters away for K = 0 (a three letter word is found)
             {
-                if(K == 0)//if the first word is a three letter word, first three letters are checked rather than checking from the space behind the word
+                if(K == 0 && text[0] != 32)//if the first word is a three letter word, first three letters are checked rather than checking from the space behind the word
                 {
-                    K = -1;
+                    K = -1; //If K is equal to 1 at the end of the switch statement, it is returned to K = 0
                 }
-                int x = (text[K + 1] - text[K + 2]); //test to be compared to known answers for commonly used words
+                int x = (text[K + 1] - text[K + 2]); //test to be compared to known patterns of commonly used words
                 printf("case %d\n", x);
                 switch(x)
                 {
@@ -479,6 +480,7 @@ int main()
                                                 printf("Key found to be: %d on K=%d\n", keys[nk], K);
                                                 nk++;
                                                 break;
+                                    default: break;
                                 }
                                 break;
                     default: break;
@@ -543,5 +545,6 @@ int main()
         }
     }
     printf("Decrypted text: %s\n", rotated);
-    }
+return 5;   
+}
 
