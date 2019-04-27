@@ -242,11 +242,11 @@ int main()
 //RotDecryptUnknownKey
 int main()
 {
-    char text[] = " YMJ FSI KTW FWJ GZY STY DTZ FQQ FSD HFS MFI MJW BFX TSJ TZW TZY IFD LJY MFX MNR MNX MTB RFS SJB STB TQI XJJ YBT BFD BMT GTD INI NYX QJY UZY XFD XMJ YTT ZXJ "; //array stores input
+    char text[] = " the and for are but not you all any can had her was one our out day get has him his how man new now old see two way who boy did its let put say she too use "; //array stores input
     char rotated[200];   // array stores decyrpted text
     int n = 0;  // n + 1 = size of string
     int nk = 0; //nk is number of keys found
-    //int key; //key to be used from keys array will be stored here
+    int key = -1; //key to be used from keys array will be stored here
     int keys[50];   //keys[] stores all potential keys found
     for(n = 0; text[n] != 0; n++) //for loop converts any lower case to upper case    
     {
@@ -484,12 +484,42 @@ int main()
         }
    // printf("The Key is: %d\n", key);
     }
-    
+    for(int x = 0; keys[x] != 0; x++) //for loop converts negative keys to values between 0 and 26. This isn't necessary for decoding to work, but seems to be a specifier in the project outline
+    {
+        if(keys[x] < 0) //if statement checks if key is negative number
+        {
+            keys[x] = keys[x] + 26;
+        }
+    }
+    int test = 0;
+    int g = 2; //g is the test for if a key is common enough to be used. After each loop, if no key is found that is common enough, g is increased to allow for less common keys to be used
+    while(key < 0) //while loop finds the most common key. Once a key is found, loop finishes and exits.
+    {
+        int tmp = 0; //tmp counts how many other array elements are the same as the one being checked
+        for(int x = 0; keys[x] != 0; x++) //for loop checks to see if there is a value that represents over 1/g of all keys found
+        {
+            if(keys[test] == keys[x])
+            tmp++;           
+        }
+        if((tmp * g) > nk)
+        {
+            key = keys[test];
+        }
+        else
+        {
+            test++;
+        }
+        if(key < 0 && keys[test] == 0) //if no common key is found, g is increased to search for a less common key
+        {
+            g++;
+        }
+    }    
+    printf("The most common key found is: %d\n", key);
     for(int x = 0; text[x] != 0; x++) //for loop decrypts text
     {
         if(text[x] > 64 && text[x] < 91) //if statement checks if character is a letter before encrypting
         {
-            rotated[x] = text[x] - keys[0]; //expression decrypts character using key and stores it in decrypted text array
+            rotated[x] = text[x] - key; //expression decrypts character using key and stores it in decrypted text array
             if(rotated[x] < 65) //if statement checks if encrypted character is a letter
             {
                 rotated[x] = rotated[x] + 26; //expression converts non-letter characters to correct letter
