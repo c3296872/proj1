@@ -242,7 +242,7 @@ int main()
 //RotDecryptUnknownKey
 int main()
 {
-    char text[] = " the and for are but not you all any can had her was one our out day get has him his how man new now old see two way who boy did its let put say she too use "; //array stores input
+    char text[] = "YMJ FSI KTW FWJ GZY STY DTZ FQQ FSD HFS MFI MJW BFX TSJ TZW TZY IFD LJY MFX MNR MNX MTB RFS SJB STB TQI XJJ YBT BFD BMT GTD INI NYX QJY UZY XFD XMJ YTT ZXJ"; //array stores input
     char rotated[200];   // array stores decyrpted text
     int n = 0;  // n + 1 = size of string
     int nk = 0; //nk is number of keys found
@@ -260,10 +260,14 @@ int main()
     for(int K = 0; text[K] != 0; K++) 
     {
         //printf("%c\n", text[K]);
-        if(text[K] == 32) //if K is a space
+        if(text[K] == 32 || K == 0) //if K is a space or if K = 0
         {
-            if(text[K + 4] == 32) //if there is another space 4 characters away (a three letter word)
+            if(((text[K + 4] == 32) || ((text[K + 4]) == 0)) || ((K == 0) && (text[K + 3] == 32))) //if there is another space 4 characters away or 3 for K = 0 (a three letter word)
             {
+                if(K == 0)//if the first word is a three letter word, first three letters are checked rather than checking from the space behind the word
+                {
+                    K = -1;
+                }
                 int x = (text[K + 1] - text[K + 2]); //test to be compared to known answers for commonly used words
                 printf("case %d\n", x);
                 switch(x)
@@ -373,7 +377,7 @@ int main()
                                     nk++;
                                     break;
                     case -14:
-                    case 12:     switch(text[K + 1] - text[K + 3])
+                    case 12:        switch(text[K + 1] - text[K + 3])
                                 {
                                     case -11:
                                     case 15:    keys[nk] = text[K + 1] - 84; //Case for if "THE" pattern identified
@@ -480,6 +484,10 @@ int main()
                     default: break;
                   
                 }
+            if(K == -1)
+            {
+                K = 0;
+            }
             }
         }
    // printf("The Key is: %d\n", key);
