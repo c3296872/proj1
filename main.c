@@ -25,13 +25,6 @@ int SubDecryptUknownKey(void);
 
 int main()
 {
-    /*FILE *input;
-    input = fopen("input.txt", "r");
-    if(input == NULL)
-    {
-        printf("input is empty");
-        return 0;
-    }*/
     char input[5] = {0};//this is pretty much just a garbage bin for anything in input that I don't want
     int input1 = 4;
     if(input1 < 7 && input1 > 0)
@@ -45,9 +38,7 @@ int main()
         printf("6. Substitution Decryption without known substitutions\n");
         scanf("%d", &input1);
         scanf("%c", &input[0]);//this is just my way of moving the scanf to the next line "enter"
-    //    input1 = input1 - 48;
         printf("input = %d\n", input1);
-        //char answer[200];
         switch(input1)
         {
         case 1: return RotEncrypt();
@@ -627,8 +618,7 @@ int SubDecryptUknownKey(void)
     printf("Text to be decrypted: %s\n", text);
         for(n = 0; text[n] != 0; n++)
     {
-        //printf("Case: %d\n", text[n]);
-        switch(text[n])
+        switch(text[n]) //switch statement counts how many times each letter appears in text
         {
             case 65:    tally[0] = tally[0] + 1;
                         break;
@@ -752,14 +742,5 @@ int SubDecryptUknownKey(void)
             }
         }
         printf("Decrypted Text: %s\n", decrypted);
-        
-    
-    
-    
-    
-    
-    //LNR 5 JPVIS BXUCA EUY'W CVALRX IUTLW TXR IUQVAZ VA!
     return 6;
 }
-
-
