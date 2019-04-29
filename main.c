@@ -32,7 +32,7 @@ int main()
         printf("input is empty");
         return 0;
     }*/
-   char input[5] = {0};
+    char input[5] = {0};//this is pretty much just a garbage bin for anything in input that I don't want
     int input1 = 4;
     if(input1 < 7 && input1 > 0)
     {
@@ -44,7 +44,7 @@ int main()
         printf("5. Rotation Decryption without known roation amount\n");
         printf("6. Substitution Decryption without known substitutions\n");
         scanf("%d", &input1);
-        scanf("%c", &input[0]);//this is just my way of moving the scanf to the next line by moving 2 characters (or an enter)
+        scanf("%c", &input[0]);//this is just my way of moving the scanf to the next line "enter"
     //    input1 = input1 - 48;
         printf("input = %d\n", input1);
         //char answer[200];
@@ -168,7 +168,7 @@ int SubEncrypt(void)
     char text[2000] = {0}; //array stores input
     char rotated[2000] = {0};   // array stores encyrpted text
     int n = 0;  // n + 1 = size of string
-    char key[25] = {0}; //Subsitution encryption key (1st letter = A, 2nd = B, etc)
+    char key[26] = {0}; //Subsitution encryption key (1st letter = A, 2nd = B, etc)
     scanf("%c", &text[2000]);
     do //do while loop converts input into key[]
     {
@@ -261,11 +261,28 @@ return 3;
 int SubDecryptKnownKey(void)
 //char function(char text[x],char *key);
 {
-    char text[] = "LnR 5 jPVIS BXUcA EUY'W CVaLRX IUTLw tXR IUQvAZ Va!"; //array stores input
-    char decrypted[200];   // array stores decyrpted text
+    int p = 0;
+    char text[2000] = {0}; //array stores input
+    char decrypted[2000];   // array stores decyrpted text
     int n = 0;  // n + 1 = size of string
-    char key[] = "TBIMREZNVFSGQAUKJXWLPHCYDO"; //Subsitution decryption key (1st letter = A, 2nd = B, etc)
+    char key[26] = {0}; //Subsitution decryption key (1st letter = A, 2nd = B, etc)
     //char key1[100];
+    scanf("%c", &text[2000]);
+    do //do while loop converts input into key[]
+    {
+            scanf("%c", &key[p]);
+            p++;
+    }while(key[p - 1] != 13);
+    key[p - 1] = 0;
+    printf("The key is:%s\n", key);
+    p = 0;
+    scanf("%c", &text[2000]);
+    do //do while loop coverts input into text[]
+    {
+            scanf("%c", &text[p]);
+            p++;
+    }while(text[p - 1] != 0);
+    text[p - 1] = 0;
     for(n = 0; text[n] != 0; n++) //for loop converts any lower case to upper case
     {
         if(text[n] > 96 && text[n] < 123) //if statement checks if character is lower case before converting
@@ -274,7 +291,7 @@ int SubDecryptKnownKey(void)
         }
     }
     
-    printf("Text to be Encrypted: %s\n", text); // prints text to be encrypted
+    printf("Text to be Decrypted: %s\n", text); // prints text to be encrypted
         for(int x = 0; key[x] != 0; x++) //for loop decrypts text
         {
             for(int k = 0; text[k] != 0; k++)
@@ -299,12 +316,20 @@ return 4;
 
 int RotDecryptUnknownKey(void)
 {
-    char text[] = "YMJ FSI KTW FWJ GZY STY DTZ FQQ FSD HFS MFI MJW BFX TSJ TZW TZY IFD LJY MFX MNR MNX MTB RFS SJB STB TQI XJJ YBT BFD BMT GTD INI NYX QJY UZY XFD XMJ YTT ZXJ"; //array stores input
-    char rotated[200];   // array stores decyrpted text
+    int p = 0;
+    char text[2000] = {0}; //array stores input
+    char rotated[2000];   // array stores decyrpted text
     int n = 0;  // n + 1 = size of string
     int nk = 0; //nk is number of keys found
     int key = -1; //key to be used from keys array will be stored here
     int keys[50];   //keys[] stores all potential keys found
+    scanf("%c", &text[2000]);
+    do //do while loop coverts input into text[]
+    {
+            scanf("%c", &text[p]);
+            p++;
+    }while(text[p - 1] != 0);
+    text[p - 1] = 0;
     for(n = 0; text[n] != 0; n++) //for loop converts any lower case to upper case    
     {
         if(text[n] > 96 && text[n] < 123) //if statement checks if character is lower case before converting
@@ -326,12 +351,10 @@ int RotDecryptUnknownKey(void)
                     K = -1; //If K is equal to 1 at the end of the switch statement, it is returned to K = 0
                 }
                 int x = (text[K + 1] - text[K + 2]); //test to be compared to known patterns of commonly used words
-                printf("case %d\n", x);
                 switch(x)
                 {
                     case -25:
                     case 1:     keys[nk] = text[K + 1] - 79; //Case for if "ONE" pattern identified
-                                printf("Key found to be: %d on K=%d\n", keys[nk], K);
                                 nk++;
                                 break;
                     case -24:
@@ -339,17 +362,14 @@ int RotDecryptUnknownKey(void)
                                 {
                                     case 13:
                                     case -13:   keys[nk] = text[K + 1] - 71; //Case for if "GET" pattern identified
-                                                printf("Key found to be: %d on K=%d\n", keys[nk], K);
                                                 nk++;
                                                 break;
                                     case 15:
                                     case -11:   keys[nk] = text[K + 1] - 67; //Case for if "CAN" pattern identified
-                                                printf("Key found to be: %d on K=%d\n", keys[nk], K);
                                                 nk++;
                                                 break;
                                     case 16:
                                     case -10:   keys[nk] = text[K + 1] - 85; //Case for if "USE" pattern identified
-                                                printf("Key found to be: %d on K=%d\n", keys[nk], K);
                                                 nk++;
                                                 break;
                                 }
@@ -358,18 +378,15 @@ int RotDecryptUnknownKey(void)
                     case 3:     switch(text[K + 1] - text[K + 3])
                                 {
                                     case -21:
-                                    case 5:    keys[nk] = text[K + 1] - 68; //Case for if "DAY" pattern identified
-                                                printf("Key found to be: %d on K=%d\n", keys[nk], K);
+                                    case 5:     keys[nk] = text[K + 1] - 68; //Case for if "DAY" pattern identified
                                                 nk++;
                                                 break;
                                     case -15:
                                     case 11:    keys[nk] = text[K + 1] - 79; //Case for if "OLD" pattern identified
-                                                printf("Key found to be: %d on K=%d\n", keys[nk], K);
                                                 nk++;
                                                 break;
                                     case -10:
                                     case 16:    keys[nk] = text[K + 1] - 72; //Case for if "HER" pattern identified
-                                                printf("Key found to be: %d on K=%d\n", keys[nk], K);
                                                 nk++;
                                                 break;
                                 }
@@ -378,7 +395,6 @@ int RotDecryptUnknownKey(void)
                     case 23:                                 //Case for if "TWO" pattern identified            
                     case -21:                                //Case for if "TOO" pattern identified
                     case 5:     keys[nk] = text[K + 1] - 84; //Case for if "TOO" pattern identified
-                                printf("Key found to be: %d on K=%d\n", keys[nk], K);
                                 nk++;
                                 break;
                     case -19:
@@ -388,18 +404,15 @@ int RotDecryptUnknownKey(void)
                                     case 15:                                 //Case for if "HAS" pattern identified
                                     case -22:                                //Case for if "HAD" pattern identified
                                     case 4:     keys[nk] = text[K + 1] - 72; //Case for if "HAD" pattern identified
-                                                printf("Key found to be: %d on K=%d\n", keys[nk], K);
                                                 nk++;
                                                 break;
                                     case -18:
                                     case 8:     keys[nk] = text[K + 1] - 66; //Case for if "BUT" pattern identified
-                                                printf("Key found to be: %d on K=%d\n", keys[nk], K);
                                                 nk++;
                                                 break;
                                         
                                     case -8:
                                     case 18:    keys[nk] = text[K + 1] - 76; //Case for if "LET" pattern identified
-                                                printf("Key found to be: %d on K=%d\n", keys[nk], K);
                                                 nk++;
                                                 break;
                                 }
@@ -409,19 +422,16 @@ int RotDecryptUnknownKey(void)
                                 {
                                     case -9:
                                     case 17:    keys[nk] = text[K + 1] - 78; //Case for if "NEW" pattern identified
-                                                printf("Key found to be: %d on K=%d\n", keys[nk], K);
                                                 nk++;
                                                 break;
                                     case -4:
                                     case 22:    keys[nk] = text[K + 1] - 65; //Case for if "ARE" pattern identified
-                                                printf("Key found to be: %d on K=%d\n", keys[nk], K);
                                                 nk++;
                                                 break;
                                 }
                                 break;
                     case -16:
                     case 10:        keys[nk] = text[K + 1] - 89; //Case for if "YOU" pattern identified
-                                    printf("Key found to be: %d on K=%d\n", keys[nk], K);
                                     nk++;
                                     break;
                     case -12:                                    //Case for if "SEE" pattern identified
@@ -430,7 +440,6 @@ int RotDecryptUnknownKey(void)
                     case 18:                                     //Case for if "SAY" pattern identified    
                     case -15:                                    //Case for if "SHE" pattern identified
                     case 11:        keys[nk] = text[K + 1] - 83; //Case for if "SHE" pattern identified
-                                    printf("Key found to be: %d on K=%d\n", keys[nk], K);
                                     nk++;
                                     break;
                     case -14:
@@ -438,12 +447,10 @@ int RotDecryptUnknownKey(void)
                                 {
                                     case -11:
                                     case 15:    keys[nk] = text[K + 1] - 84; //Case for if "THE" pattern identified
-                                                printf("Key found to be: %d on K=%d\n", keys[nk], K);
                                                 nk++;
                                                 break;
                                     case -1:
                                     case 25:    keys[nk] = text[K + 1] - 77; //Case for if "MAN" pattern identified
-                                                printf("Key found to be: %d on K=%d\n", keys[nk], K);
                                                 nk++;
                                                 break;
                                 }
@@ -455,12 +462,10 @@ int RotDecryptUnknownKey(void)
                                     case 23:                                  //Case for if "AND" pattern identified
                                     case -24:                                //Case for if "ANY" pattern identified
                                     case 2:     keys[nk] = text[K + 1] - 65; //Case for if "ANY" pattern identified
-                                                printf("Key found to be: %d on K=%d\n", keys[nk], K);
                                                 nk++;
                                                 break;
                                     case -23:
                                     case 3:     keys[nk] = text[K + 1] - 66; //Case for if "BOY" pattern identified
-                                                printf("Key found to be: %d on K=%d\n", keys[nk], K);
                                                 nk++;
                                                 break;
                                 }
@@ -470,53 +475,44 @@ int RotDecryptUnknownKey(void)
                                 {
                                     case -18:
                                     case 8:    keys[nk] = text[K + 1] - 87; //Case for if "WHO" pattern identified
-                                                printf("Key found to be: %d on K=%d\n", keys[nk], K);
                                                 nk++;
                                                 break;
                                     case -11:
                                     case 15:    keys[nk] = text[K + 1] - 65; //Case for if "ALL" pattern identified
-                                                printf("Key found to be: %d on K=%d\n", keys[nk], K);
                                                 nk++;
                                                 break;
                                     case -10:
                                     case 16:    keys[nk] = text[K + 1] - 73; //Case for if "ITS" pattern identified
-                                                printf("Key found to be: %d on K=%d\n", keys[nk], K);
                                                 nk++;
                                                 break;
                                 }
                                 break;    
                     case -9:
                     case 17:        keys[nk] = text[K + 1] - 70; //Case for if "FOR" pattern identified
-                                    printf("Key found to be: %d on K=%d\n", keys[nk], K);
                                     nk++;
                                     break;
                     case -7:
                     case 19:        keys[nk] = text[K + 1] - 72; //Case for if "HOW" pattern identified
-                                    printf("Key found to be: %d on K=%d\n", keys[nk], K);
                                     nk++;
                                     break;
                     case -6:
                     case 20:        keys[nk] = text[K + 1] - 79; //Case for if "OUR" OR "OUT" pattern identified
-                                    printf("Key found to be: %d on K=%d\n", keys[nk], K);
                                     nk++;
                                     break;
                     case -5:
                     case 21:     switch(text[K + 1] - text[K + 3])
                                 {
                                     case 0:     keys[nk] = text[K + 1] - 68; //Case for if "DID" pattern identified
-                                                printf("Key found to be: %d on K=%d\n", keys[nk], K);
                                                 nk++;
                                                 break;
                                     case -4:
                                     case 22:    keys[nk] = text[K + 1] - 80; //Case for if "PUT" pattern identified
-                                                printf("Key found to be: %d on K=%d\n", keys[nk], K);
                                                 nk++;
                                                 break;
                                 }
                                 break;
                     case -4:
                     case 22:    keys[nk] = text[K + 1] - 87; //Case for if "WAS" or "WAY" pattern identified
-                                printf("Key found to be: %d on K=%d\n", keys[nk], K);
                                 nk++;
                                 break;
                     case -1:
@@ -526,14 +522,12 @@ int RotDecryptUnknownKey(void)
                                     case 17:                                 //Case for if "NOW" pattern identified
                                     case -6:                                 //Case for if "NOT" pattern identified
                                     case 20:    keys[nk] = text[K + 1] - 78; //Case for if "NOT" pattern identified
-                                                printf("Key found to be: %d on K=%d\n", keys[nk], K);
                                                 nk++;
                                                 break;
                                     case -11:                                //Case for if "HIS" pattern identified   
                                     case 15:                                 //Case for if "HIS" pattern identified
                                     case -5:                                 //Case for if "HIM" pattern identified   
                                     case 21:    keys[nk] = text[K + 1] - 72; //Case for if "HIM" pattern identified
-                                                printf("Key found to be: %d on K=%d\n", keys[nk], K);
                                                 nk++;
                                                 break;
                                     default: break;
@@ -605,7 +599,8 @@ return 5;
 
 int SubDecryptUknownKey(void)
 {
-    char text[] = "RCR VYE BGBX HBNX FHB FXNQBRV YM RNXFH IZNQEBCJ FHB PCJB? C FHYEQHF KYF. CF'J KYF N JFYXV FHB DBRC PYEZR FBZZ VYE. CF'J N JCFH ZBQBKR. RNXFH IZNQEBCJ PNJ N RNXA ZYXR YM FHB JCFH, JY IYPBXMEZ NKR JY PCJB HB LYEZR EJB FHB MYXLB FY CKMZEBKLB FHB OCRCLHZYXCNKJ FY LXBNFB ZCMB… HB HNR JELH N AKYPZBRQB YM FHB RNXA JCRB FHNF HB LYEZR BGBK ABBI FHB YKBJ HB LNXBR NWYEF MXYO RVCKQ. FHB RNXA JCRB YM FHB MYXLB CJ N INFHPNV FY ONKV NWCZCFCBJ JYOB LYKJCRBX FY WB EKKNFEXNZ. HB WBLNOB JY IYPBXMEZ… FHB YKZV FHCKQ HB PNJ NMXNCR YM PNJ ZYJCKQ HCJ IYPBX, PHCLH BGBKFENZZV, YM LYEXJB, HB RCR. EKMYXFEKNFBZV, HB FNEQHF HCJ NIIXBKFCLB BGBXVFHCKQ HB AKBP, FHBK HCJ NIIXBKFCLB ACZZBR HCO CK HCJ JZBBI. CXYKCL. HB LYEZR JNGB YFHBXJ MXYO RBNFH, WEF KYF HCOJBZM.";
+    int p = 0;
+    char text[2000] = {0};
     char decrypted[2000];
     char key[] = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
     //char tkey[] = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
@@ -615,6 +610,13 @@ int SubDecryptUknownKey(void)
     char ordered[12] = {0};
     char orderedtally[25] = {0}; 
     int n = 0;
+    scanf("%c", &text[2000]);
+    do //do while loop coverts input into text[]
+    {
+            scanf("%c", &text[p]);
+            p++;
+    }while(text[p - 1] != 0);
+    text[p - 1] = 0;
     for(n = 0; text[n] != 0; n++) //for loop converts any lower case to upper case    
     {
         if(text[n] > 96 && text[n] < 123) //if statement checks if character is lower case before converting
