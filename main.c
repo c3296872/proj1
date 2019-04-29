@@ -1,3 +1,18 @@
+/*HOW TO USE THIS CODE
+There are 6 functions in this code that each correspond with a task. 
+The first line of "input" should be a single digit between 1 - 6 (inclusive) which corresponds to the task you want to complete
+    If an invalid character is entered, an error message will be generated and no functions will be called for
+If you are choosing a task that requires a known key, it must be placed in line 2 of "input", and the text to be encrypted or decrypted should be placed in line 3
+    If you attempt to run a function that requires a known key without supplying the key, a standard key will be used
+If you are choosing a task where the key is unknown, the text to be decrypted should be placed in line 2 of "input"
+If you are running an ENCRYPTION function, you MUST supply the key on line 2 of "input"
+HOW TO FORMAT KEYS IN "input"
+    The key for a rotation encryption can be any single integer that fits in an int data type
+    the key for a subsitution encryption should be a string of 26 letters ordered A-Z in which the subtitution has already been applied
+        i.e. if the Substituion for A is X, the first letter of the key will be X. If the subsitution for B is Q, the second letter of the key will be Q, etc.
+        Each letter can only be represneted in the key once and no spaces should appear on the same line as a key
+        The key must only contain uppercase letters, only text to be decrypted will be converted*/
+
 #include <stdio.h>
 
 int RotEncrypt(void);
@@ -10,7 +25,15 @@ int SubDecryptUknownKey(void);
 
 int main()
 {
-    int input1 = 6;
+    /*FILE *input;
+    input = fopen("input.txt", "r");
+    if(input == NULL)
+    {
+        printf("input is empty");
+        return 0;
+    }*/
+   char input[5] = {0};
+    int input1 = 4;
     if(input1 < 7 && input1 > 0)
     {
         printf("Choose from the following options:\n");
@@ -20,7 +43,10 @@ int main()
         printf("4. Substitution Decryption with known substitutions\n");
         printf("5. Rotation Decryption without known roation amount\n");
         printf("6. Substitution Decryption without known substitutions\n");
-        //scanf("%d", &input1);
+        scanf("%d", &input1);
+        scanf("%c", &input[0]);//this is just my way of moving the scanf to the next line by moving 2 characters (or an enter)
+    //    input1 = input1 - 48;
+        printf("input = %d\n", input1);
         //char answer[200];
         switch(input1)
         {
@@ -30,22 +56,31 @@ int main()
         case 4: return SubDecryptKnownKey();
         case 5: return RotDecryptUnknownKey();
         case 6: return SubDecryptUknownKey();
-                printf("This option is still under construction.\n We thank you for your patience\n");
-                return 0;
         default: printf("Invalid Input\n");
         }
     }
     
 }
 
-
-//int main()
 int RotEncrypt(void) 
 {
-    char text[] = "the and for are but not you all any can had her was one our out day get has him his how man new now old see two way who boy did its let put say she too use"; //array stores input
-    char rotated[200];   // array stores encyrpted text
+    char text[2000] = {0}; //array stores input
+    int p = 0;
+    int K; //K is rotation cipher encryption "key"
+    char rotated[200] = {0};   // array stores encyrpted text
     int n = 0;  // n + 1 = size of string
-    int K = 5; //K is rotation cipher encryption "key"
+    scanf("%d", &K);
+    while(K < 0) //if a negative key is given, it is converted to a positive key
+    {
+        K = K + 26;
+    }
+    do
+    {
+            scanf("%c", &text[p]);
+            p++;
+    }while(text[p - 1] != 0);
+
+
     for(n = 0; text[n] != 0; n++) //for loop converts any lower case to upper case
     {
         if(text[n] > 96 && text[n] < 123) //if statement checks if character is lower case before converting
@@ -53,7 +88,8 @@ int RotEncrypt(void)
             text[n] = text[n] - 32; // expression converts lower case letter to uppercase as per ASCII table
         }
     }
-    printf("Text to be encrypted: %s\n", text); // prints text to be encrypted
+    printf("The key is:\n%d\n", K);
+    printf("Text to be encrypted:\n%s\n", text); // prints text to be encrypted
     for(int x = 0; text[x] != 0; x++) //for loop encrypts text
     {
         if(text[x] > 64 && text[x] < 91) //if statement checks if character is a letter before encrypting
@@ -71,17 +107,28 @@ int RotEncrypt(void)
 
     }
     rotated[n+1] = 0; //places string termination at correct position in array
-    printf("Encrypted text: %s\n", rotated); // prints encrypted text
+    printf("Encrypted text: \n%s\n", rotated); // prints encrypted text
  return 1;   
 }
 
 int RotDecryptKnownKey(void)
-//int main()
 {
-    char text[] = "YMj 5 VZnHP gWTBS kTC'x BnSYJW HtFYX FwJ HtRNSL Ns!"; //array stores input
-    char rotated[200];   // array stores decyrpted text
+    char text[1000] = {0}; //array stores input
+    char rotated[200] = {0};   // array stores decyrpted text
     int n = 0;  // n + 1 = size of string
     int K = 5; //K is rotation cipher encryption "key"
+    int p = 0;
+    scanf("%d", &K);
+    while(K < 0) //if a negative key is given, it is converted to a positive key
+    {
+        K = K + 26;
+    }
+    printf("The key is: %d\n", K);
+    do
+    {
+            scanf("%c", &text[p]);
+            p++;
+    }while(text[p - 1] != 0);    
     for(n = 0; text[n] != 0; n++) //for loop converts any lower case to upper case
     {
         if(text[n] > 96 && text[n] < 123) //if statement checks if character is lower case before converting
@@ -89,7 +136,7 @@ int RotDecryptKnownKey(void)
             text[n] = text[n] - 32; // expression converts lower case letter to uppercase as per ASCII table
         }
     }
-    printf("Text to be decrypted: %s\n", text); // prints text to be decrypted
+    printf("Text to be decrypted: \n%s\n", text); // prints text to be decrypted
     for(int x = 0; text[x] != 0; x++) //for loop decrypts text
     {
         if(text[x] > 64 && text[x] < 91) //if statement checks if character is a letter before encrypting
@@ -106,7 +153,7 @@ int RotDecryptKnownKey(void)
         }
 
     }
-    printf("Decrypted text: %s", rotated);
+    printf("Decrypted text: \n%s", rotated);
 return 2;
 }
 
@@ -116,12 +163,27 @@ return 2;
 
 //The 5 Quick Brown Fox's Winter Coats are coming in!
 int SubEncrypt(void)
-//int main()
 {
-    char text[] = "The 5 Quick Brown Fox's Winter Coats are coming in!"; //array stores input
-    char rotated[200];   // array stores encyrpted text
+    int p = 0;
+    char text[2000] = {0}; //array stores input
+    char rotated[2000] = {0};   // array stores encyrpted text
     int n = 0;  // n + 1 = size of string
-    char key[] = "TBIMREZNVFSGQAUKJXWLPHCYDO"; //Subsitution encryption key (1st letter = A, 2nd = B, etc)
+    char key[25] = {0}; //Subsitution encryption key (1st letter = A, 2nd = B, etc)
+    scanf("%c", &text[2000]);
+    do //do while loop converts input into key[]
+    {
+            scanf("%c", &key[p]);
+            p++;
+    }while(key[p - 1] != 13);
+    key[p - 1] = 0;
+    p = 0;
+    scanf("%c", &text[2000]);
+    do //do while loop coverts input into text[]
+    {
+            scanf("%c", &text[p]);
+            p++;
+    }while(text[p - 1] != 0);
+    text[p - 1] = 0;
     for(n = 0; text[n] != 0; n++) //for loop converts any lower case to upper case
     {
         if(text[n] > 96 && text[n] < 123) //if statement checks if character is lower case before converting
@@ -129,7 +191,8 @@ int SubEncrypt(void)
             text[n] = text[n] - 32; // expression converts lower case letter to uppercase as per ASCII table
         }
     }
-    printf("Text to be Encrypted: %s\n", text); // prints text to be encrypted
+    printf("Text to be Encrypted:%s\n", text); // prints text to be encrypted
+    printf("The key is: %s\n", key);
         for(int x = 0; text[x] != 0; x++) //for loop encrypts text
         {
             switch(text[x]) //switch statement returns value from key to encrypted array
@@ -189,14 +252,13 @@ int SubEncrypt(void)
                 default: rotated[x] = text[x]; //any non letter characters are not encrypted
             }
         }
-        printf("Encrypted Text: %s\n", rotated);
+        printf("Encrypted Text:%s\n", rotated);
 return 3;
 }
 
 
 //LNR 5 JPVIS BXUCA EUY'W CVALRX IUTLW TXR IUQVAZ VA!
 int SubDecryptKnownKey(void)
-//int main()
 //char function(char text[x],char *key);
 {
     char text[] = "LnR 5 jPVIS BXUcA EUY'W CVaLRX IUTLw tXR IUQvAZ Va!"; //array stores input
@@ -236,7 +298,6 @@ return 4;
 
 
 int RotDecryptUnknownKey(void)
-//int main()
 {
     char text[] = "YMJ FSI KTW FWJ GZY STY DTZ FQQ FSD HFS MFI MJW BFX TSJ TZW TZY IFD LJY MFX MNR MNX MTB RFS SJB STB TQI XJJ YBT BFD BMT GTD INI NYX QJY UZY XFD XMJ YTT ZXJ"; //array stores input
     char rotated[200];   // array stores decyrpted text
