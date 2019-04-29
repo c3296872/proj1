@@ -602,7 +602,7 @@ int SubDecryptUknownKey(void)
     int p = 0;
     char text[2000] = {0};
     char decrypted[2000];
-    char key[] = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+    char key[] = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"; //Key is initialised and modified as text is analysed 
     //char tkey[] = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
     char commonL[] = "ETAOINSHRDLU"; //List of letters in order of most commonly used in English text according to https://www3.nd.edu/~busiforc/handouts/cryptography/cryptography%20hints.html
     char tally[25] = {0};
@@ -708,7 +708,7 @@ int SubDecryptUknownKey(void)
             }
         }
     } 
-    
+    /*
      char Di1[4] = {0}; //where most common digraph is stored. [0 & 1] stores 2 letter combo, [3] stores its frequency with a null in [2] so that array can still be read as string
      char Di2[4] = {0}; //where 2nd most common digraph is stored, etc
      char Di3[4] = {0}; //where 3rd most common digraph is stored
@@ -1909,7 +1909,7 @@ int SubDecryptUknownKey(void)
                      key[tmp3] = key[tmp2];
                      key[tmp2] = Di1[1];    
          case 0:     break;
-     } 
+     } */
      //printf("Based on common 2 letter combinations, key is: %s\n", key);
 
     for(x = 0; x < 12; x++)//changes to key based on most frequent letters is applied after frequent 2 letter combinations
