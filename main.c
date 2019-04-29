@@ -603,7 +603,7 @@ int SubDecryptUknownKey(void)
     char text[2000] = {0};
     char decrypted[2000];
     char key[] = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"; //Key is initialised and modified as text is analysed 
-    //char tkey[] = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+    char tkey[] = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
     char commonL[] = "ETAOINSHRDLU"; //List of letters in order of most commonly used in English text according to https://www3.nd.edu/~busiforc/handouts/cryptography/cryptography%20hints.html
     char tally[25] = {0};
     tally[25] = 0;
@@ -1914,21 +1914,31 @@ int SubDecryptUknownKey(void)
 
     for(x = 0; x < 12; x++)//changes to key based on most frequent letters is applied after frequent 2 letter combinations
     {
+        int tmp8 = 0;
+        int tmp7 = 0;
         int tmp6 = 0;
         int tmp5 = 0;
         for(h = 0; key[h] != 0; h++)
         {
-            if(ordered[x] == key[h])
+            if(ordered[x] == key[h]) //Where in the key is the most common letter found in text
             {
                 tmp5 = h;
             }
-            if(commonL[x] == key[h])
+            if(commonL[x] == key[h]) //where is the standard common letter currently in the key
             {
                 tmp6 = h;             
             }
+            if(key[tmp6] == tkey[h]) //where in the key should the common letter go
+            {
+                tmp7 = h;
+            }
+            if(key[tmp7] == key[h]) //what is currently in that position
+            {
+                tmp8 = key[h];
+            }
         }
-         key[tmp5] = commonL[x];
-         key[tmp6] = ordered[x];
+         key[tmp5] = key[tmp7];
+         key[tmp7] = ordered[x];
      }
      printf("The most common letters are %s\n", ordered);
      printf("Based on most common letters, key is: %s\n", key);
